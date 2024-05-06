@@ -1,6 +1,6 @@
 # File Downloads Organizer
 
-This is a simple Tkinter application that lists all files in a directory and displays them in a GUI.
+A simple Python application that can help organize files in your computer using TKinter GUI.
 
 ## Installation
 
