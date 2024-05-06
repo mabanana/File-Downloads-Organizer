@@ -40,6 +40,10 @@ def display_files():
         # Get the directory input from the input field
         dir_input = input_field.get()
 
+        # Create a file to store the directory string
+        with open("directory.txt", "w") as file:
+            file.write(dir_input)
+
         # Get the file list
         file_list = get_dir_files(dir_input)
 
@@ -50,6 +54,16 @@ def display_files():
     # Create a button to trigger the update
     button = tk.Button(window, text="Update", command=update_table)
     button.pack()
+
+    # Check if directory.txt exists
+    if os.path.exists("directory.txt"):
+        # Read the directory string from the file
+        with open("directory.txt", "r") as file:
+            dir_input = file.read().strip()
+        # Insert the directory string into the input field
+        input_field.insert(0, dir_input)
+        # Update the table display
+        update_table()
 
     # Run the GUI event loop
     window.mainloop()
