@@ -1,16 +1,14 @@
 import os
+import tkinter as tk
 
+# Class to represent a file
 class File():
     def __init__(self, name, type):
         self.name = name
         self.type = type
 
-def get_dir_files(target_dir, relative_path = True) -> list:
-    path = target_dir
-    if relative_path:
-        curr_dir = os.path.abspath(os.getcwd())
-        path = curr_dir + target_dir
-    
+# Function to get the files in a directory
+def get_dir_files(path) -> list:
     file_list = []
     folder = os.listdir(path)
     for file in folder:
@@ -21,21 +19,39 @@ def get_dir_files(target_dir, relative_path = True) -> list:
         file_list.append(File(file[0], file[1]))
     return file_list
 
-def print_all_files(file_list: list) -> None:
-    for file in file_list:
-        print(f"a {file.type} file called {file.name}")
+def display_files():
+    # Create a new window
+    window = tk.Tk()
+    window.geometry("500x500")  # Set the window size
 
+    # Create an input field
+    input_field = tk.Entry(window, width=50)  # Set the width of the input field
+    input_field.pack()
 
+    # Create a table display
+    table = tk.Listbox(window, width=70, height=20)  # Set the width and height of the table
+    table.pack()
 
-target_dir = "/targetDir"
-dir_input = input("what directory do you want to access?\n")
-is_relative_path = input("is this path relative to the current directory?\ny/n\n")
-is_relative_path = True if is_relative_path.lower() == "y" else False
+    # Function to update the table display
+    def update_table():
+        # Clear the table
+        table.delete(0, tk.END)
 
-if dir_input:
-    target_dir = dir_input
+        # Get the directory input from the input field
+        dir_input = input_field.get()
 
-target_file_list = get_dir_files(target_dir, is_relative_path)
-print_all_files(target_file_list)
+        # Get the file list
+        file_list = get_dir_files(dir_input)
 
+        # Add each file to the table
+        for file in file_list:
+            table.insert(tk.END, f"a {file.type} called {file.name}")
 
+    # Create a button to trigger the update
+    button = tk.Button(window, text="Update", command=update_table)
+    button.pack()
+
+    # Run the GUI event loop
+    window.mainloop()
+
+display_files()
